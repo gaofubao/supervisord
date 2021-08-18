@@ -16,8 +16,8 @@ type ContentChecker interface {
 
 // BaseChecker basic implementation of ContentChecker
 type BaseChecker struct {
-	data     string
-	includes []string
+	data     	  string
+	includes 	  []string
 	// timeout in second
 	timeoutTime   time.Time
 	notifyChannel chan string
@@ -25,7 +25,8 @@ type BaseChecker struct {
 
 // NewBaseChecker creates BaseChecker object
 func NewBaseChecker(includes []string, timeout int) *BaseChecker {
-	return &BaseChecker{data: "",
+	return &BaseChecker{
+		data: 		   "",
 		includes:      includes,
 		timeoutTime:   time.Now().Add(time.Duration(timeout) * time.Second),
 		notifyChannel: make(chan string, 1)}
@@ -97,7 +98,8 @@ type TCPChecker struct {
 
 // NewTCPChecker creates TCPChecker object
 func NewTCPChecker(host string, port int, includes []string, timeout int) *TCPChecker {
-	checker := &TCPChecker{host: host,
+	checker := &TCPChecker{
+		host: 		 host,
 		port:        port,
 		baseChecker: NewBaseChecker(includes, timeout)}
 	checker.start()

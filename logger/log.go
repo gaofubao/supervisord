@@ -67,7 +67,8 @@ type CompositeLogger struct {
 
 // NewFileLogger creates FileLogger object
 func NewFileLogger(name string, maxSize int64, backups int, logEventEmitter LogEventEmitter, locker sync.Locker) *FileLogger {
-	logger := &FileLogger{name: name,
+	logger := &FileLogger{
+		name: 			 name,
 		maxSize:         maxSize,
 		backups:         backups,
 		fileSize:        0,
@@ -414,8 +415,10 @@ type StdLogger struct {
 
 // NewStdoutLogger creates StdLogger object
 func NewStdoutLogger(logEventEmitter LogEventEmitter) *StdLogger {
-	return &StdLogger{logEventEmitter: logEventEmitter,
-		writer: os.Stdout}
+	return &StdLogger{
+		logEventEmitter: logEventEmitter,
+		writer: 		 os.Stdout,
+	}
 }
 
 // Write output to stdout/stderr
@@ -429,8 +432,10 @@ func (l *StdLogger) Write(p []byte) (int, error) {
 
 // NewStderrLogger creates stderr logger
 func NewStderrLogger(logEventEmitter LogEventEmitter) *StdLogger {
-	return &StdLogger{logEventEmitter: logEventEmitter,
-		writer: os.Stderr}
+	return &StdLogger{
+		logEventEmitter: logEventEmitter,
+		writer: 		 os.Stderr,
+	}
 }
 
 // LogCaptureLogger capture the log for further analysis
@@ -441,20 +446,14 @@ type LogCaptureLogger struct {
 }
 
 // NewLogCaptureLogger creates new LogCaptureLogger object
-func NewLogCaptureLogger(underlineLogger Logger,
-	captureMaxBytes int,
-	stdType string,
-	procName string,
-	groupName string) *LogCaptureLogger {
+func NewLogCaptureLogger(underlineLogger Logger, captureMaxBytes int, stdType string, procName string, groupName string) *LogCaptureLogger {
 	r, w := io.Pipe()
-	eventCapture := events.NewProcCommEventCapture(r,
-		captureMaxBytes,
-		stdType,
-		procName,
-		groupName)
-	return &LogCaptureLogger{underlineLogger: underlineLogger,
+	eventCapture := events.NewProcCommEventCapture(r, captureMaxBytes, stdType, procName, groupName)
+	return &LogCaptureLogger{
+		underlineLogger: 		underlineLogger,
 		procCommEventCapWriter: w,
-		procCommEventCapture:   eventCapture}
+		procCommEventCapture:   eventCapture,
+	}
 }
 
 // SetPid sets pid of program
@@ -516,18 +515,22 @@ type StdLogEventEmitter struct {
 
 // NewStdoutLogEventEmitter creates new StdLogEventEmitter object
 func NewStdoutLogEventEmitter(processName string, groupName string, procPidFunc func() int) *StdLogEventEmitter {
-	return &StdLogEventEmitter{Type: "stdout",
+	return &StdLogEventEmitter{
+		Type: 		 "stdout",
 		processName: processName,
 		groupName:   groupName,
-		pidFunc:     procPidFunc}
+		pidFunc:     procPidFunc,
+	}
 }
 
 // NewStderrLogEventEmitter creates new StdLogEventEmitter object for emitting Stderr log events
 func NewStderrLogEventEmitter(processName string, groupName string, procPidFunc func() int) *StdLogEventEmitter {
-	return &StdLogEventEmitter{Type: "stderr",
+	return &StdLogEventEmitter{
+		Type: 		 "stderr",
 		processName: processName,
 		groupName:   groupName,
-		pidFunc:     procPidFunc}
+		pidFunc:     procPidFunc,
+	}
 }
 
 // emitLogEvent emits stdout/stderr log event (with data)
@@ -549,8 +552,10 @@ type BackgroundWriteCloser struct {
 // NewBackgroundWriteCloser creates new BackgroundWriteCloser object
 func NewBackgroundWriteCloser(writeCloser io.WriteCloser) *BackgroundWriteCloser {
 	channel := make(chan []byte)
-	bw := &BackgroundWriteCloser{logChannel: channel,
-		writeCloser: writeCloser}
+	bw := &BackgroundWriteCloser{
+		logChannel:  channel,
+		writeCloser: writeCloser,
+	}
 
 	bw.start()
 	return bw

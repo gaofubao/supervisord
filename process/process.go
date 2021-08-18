@@ -84,34 +84,36 @@ func (p State) String() string {
 
 // Process the program process management data
 type Process struct {
-	supervisorID string
-	config       *config.Entry
-	cmd          *exec.Cmd
-	startTime    time.Time
-	stopTime     time.Time
-	state        State
+	supervisorID 	string
+	config       	*config.Entry
+	cmd          	*exec.Cmd
+	startTime    	time.Time
+	stopTime     	time.Time
+	state        	State
 	//true if process is starting
-	inStart bool
+	inStart 		bool
 	//true if the process is stopped by user
-	stopByUser bool
-	retryTimes *int32
-	lock       sync.RWMutex
-	stdin      io.WriteCloser
-	StdoutLog  logger.Logger
-	StderrLog  logger.Logger
+	stopByUser 		bool
+	retryTimes 		*int32
+	lock       		sync.RWMutex
+	stdin      		io.WriteCloser
+	StdoutLog  		logger.Logger
+	StderrLog  		logger.Logger
 }
 
 // NewProcess creates new Process object
 func NewProcess(supervisorID string, config *config.Entry) *Process {
-	proc := &Process{supervisorID: supervisorID,
-		config:     config,
-		cmd:        nil,
-		startTime:  time.Unix(0, 0),
-		stopTime:   time.Unix(0, 0),
-		state:      Stopped,
-		inStart:    false,
-		stopByUser: false,
-		retryTimes: new(int32)}
+	proc := &Process{
+		supervisorID: 	supervisorID,
+		config:     	config,
+		cmd:        	nil,
+		startTime:  	time.Unix(0, 0),
+		stopTime:   	time.Unix(0, 0),
+		state:      	Stopped,
+		inStart:    	false,
+		stopByUser: 	false,
+		retryTimes: 	new(int32),
+	}
 	proc.config = config
 	proc.cmd = nil
 	proc.addToCron()
@@ -131,7 +133,6 @@ func (p *Process) addToCron() {
 			}
 		})
 	}
-
 }
 
 // Start process
@@ -157,7 +158,6 @@ func (p *Process) Start(wait bool) {
 	}
 
 	go func() {
-
 		for {
 			p.run(func() {
 				if wait {
@@ -388,7 +388,6 @@ func (p *Process) getExitCodes() []int {
 }
 
 // check if the process is running or not
-//
 func (p *Process) isRunning() bool {
 	if p.cmd != nil && p.cmd.Process != nil {
 		if runtime.GOOS == "windows" {
@@ -478,7 +477,6 @@ func (p *Process) setProgramRestartChangeMonitor(programPath string) {
 			}
 		})
 	}
-
 }
 
 // wait for the started program exit
@@ -508,7 +506,6 @@ func (p *Process) failToStartProgram(reason string, finishCb func()) {
 }
 
 // monitor if the program is in running before endTime
-//
 func (p *Process) monitorProgramIsRunning(endTime time.Time, monitorExited *int32, programExited *int32) {
 	// if time is not expired
 	for time.Now().Before(endTime) && atomic.LoadInt32(programExited) == 0 {
@@ -627,7 +624,6 @@ func (p *Process) run(finishCb func()) {
 			break
 		}
 	}
-
 }
 
 func (p *Process) changeStateTo(procState State) {
@@ -665,7 +661,6 @@ func (p *Process) changeStateTo(procState State) {
 // Args:
 //   sig - the signal to the process
 //   sigChildren - if true, sends the same signal to the process and its children
-//
 func (p *Process) Signal(sig os.Signal, sigChildren bool) error {
 	p.lock.RLock()
 	defer p.lock.RUnlock()
@@ -692,7 +687,6 @@ func (p *Process) sendSignals(sigs []string, sigChildren bool) {
 // Args:
 //    sig - the signal to be sent
 //    sigChildren - if true, the signal also will be sent to children processes too
-//
 func (p *Process) sendSignal(sig os.Signal, sigChildren bool) error {
 	if p.cmd != nil && p.cmd.Process != nil {
 		log.WithFields(log.Fields{"program": p.GetName(), "signal": sig}).Info("Send signal to program")

@@ -36,7 +36,6 @@ func installSignalAndForward(pidfile string, exitIfDaemonStopped bool) {
 					os.Exit(1)
 				}
 			}
-
 		}
 	}
 }
@@ -89,7 +88,6 @@ func startApplication(command string, args []string) {
 	for _, arg := range args {
 		cmd.Args = append(cmd.Args, arg)
 	}
-
 	err := cmd.Start()
 
 	if err == nil {
@@ -98,7 +96,6 @@ func startApplication(command string, args []string) {
 			fmt.Printf("Succeed to start program:%s\n", command)
 			return
 		}
-
 	}
 	fmt.Printf("Fail to start program with error %v\n", err)
 	os.Exit(1)

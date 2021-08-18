@@ -119,7 +119,13 @@ type BackendSysLogWriter struct {
 
 // NewBackendSysLogWriter creates background syslog writer
 func NewBackendSysLogWriter(network, raddr string, priority syslog.Priority, tag string) *BackendSysLogWriter {
-	bs := &BackendSysLogWriter{network: network, raddr: raddr, priority: priority, tag: tag, logChannel: make(chan []byte)}
+	bs := &BackendSysLogWriter{
+		network: 	network,
+		raddr: 		raddr,
+		priority: 	priority,
+		tag: 		tag,
+		logChannel: make(chan []byte),
+	}
 	bs.start()
 	return bs
 }
@@ -143,7 +149,6 @@ func (bs *BackendSysLogWriter) start() {
 			if writer != nil {
 				writer.Write(b)
 			}
-
 		}
 	}()
 }
@@ -206,7 +211,6 @@ func parseSysLogConfig(config string) (protocol string, host string, port int, e
 		err = errors.New("invalid format")
 	}
 	return
-
 }
 
 // NewRemoteSysLogger creates network syslog logger object
@@ -234,5 +238,4 @@ func NewRemoteSysLogger(name string, config string, props map[string]string, log
 		logger.logWriter = NewBackendSysLogWriter(protocol, fmt.Sprintf("%s:%d", host, port), priority, name)
 	}
 	return logger
-
 }

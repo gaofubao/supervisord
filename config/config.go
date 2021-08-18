@@ -195,7 +195,6 @@ func (c *Config) setProgramDefaultParams(cfg *ini.Ini) {
 					section.Add(key.Name(), key.ValueWithDefault(""))
 				}
 			}
-
 		}
 	}
 }
@@ -372,7 +371,6 @@ func parseEnv(s string) *map[string]string {
 			}
 		}
 	}
-
 	return &result
 }
 
@@ -393,7 +391,6 @@ func (c *Entry) GetEnv(key string) []string {
 			}
 		}
 	}
-
 	return result
 }
 
@@ -441,7 +438,6 @@ func (c *Entry) GetStringExpression(key string, defValue string) string {
 		}).Warn("unable to parse expression")
 		return s
 	}
-
 	return result
 }
 

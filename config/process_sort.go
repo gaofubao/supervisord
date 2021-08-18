@@ -53,7 +53,6 @@ func (p *ProcessSorter) initDepends(programConfigs []*Entry) {
 			}
 		}
 	}
-
 }
 
 func (p *ProcessSorter) initProgramWithoutDepends(programConfigs []*Entry) {
@@ -76,7 +75,6 @@ func (p *ProcessSorter) getDependsOnInfo() map[string]string {
 			dependsOnPrograms[t] = t
 		}
 	}
-
 	return dependsOnPrograms
 }
 
@@ -101,7 +99,6 @@ func (p *ProcessSorter) sortDepends() []string {
 			}
 		}
 	}
-
 	return progsStartOrder
 }
 

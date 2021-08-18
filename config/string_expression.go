@@ -29,9 +29,7 @@ func NewStringExpression(envs ...string) *StringExpression {
 	if err == nil {
 		se.env["host_node_name"] = hostname
 	}
-
 	return se
-
 }
 
 // Add adds environment variable (key,value)
