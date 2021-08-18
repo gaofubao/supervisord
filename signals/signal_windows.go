@@ -31,7 +31,6 @@ func ToSignal(signalName string) (os.Signal, error) {
 		return syscall.SIGTERM, nil
 
 	}
-
 }
 
 //

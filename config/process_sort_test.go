@@ -7,7 +7,6 @@ import (
 
 //
 // check if program1 is before the program2 in the Entry
-//
 func isProgramBefore(entries []*Entry, program1 string, program2 string) bool {
 	order := 0
 	program1Order := -1
@@ -88,5 +87,4 @@ func TestSortProgram(t *testing.T) {
 		!isProgramBefore(result, "prog-7", "prog-6") {
 		t.Error("Program sort is incorrect")
 	}
-
 }

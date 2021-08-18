@@ -351,7 +351,6 @@ func (p *Process) isAutoRestart() bool {
 		}
 	}
 	return false
-
 }
 
 func (p *Process) inExitCodes(exitCode int) bool {
@@ -372,7 +371,6 @@ func (p *Process) getExitCode() (int, error) {
 	}
 
 	return -1, fmt.Errorf("no exit code")
-
 }
 
 func (p *Process) getExitCodes() []int {
@@ -422,7 +420,6 @@ func (p *Process) createProgramCommand() error {
 
 	p.stdin, _ = p.cmd.StdinPipe()
 	return nil
-
 }
 
 func (p *Process) setProgramRestartChangeMonitor(programPath string) {
@@ -531,7 +528,6 @@ func (p *Process) run(finishCb func()) {
 		log.WithFields(log.Fields{"program": p.GetName()}).Info("Don't start program because it is running")
 		finishCb()
 		return
-
 	}
 	p.startTime = time.Now()
 	atomic.StoreInt32(p.retryTimes, 0)
@@ -763,10 +759,7 @@ func (p *Process) setLog() {
 		}
 		p.cmd.Stderr = os.Stderr
 
-		p.registerEventListener(p.config.GetEventListenerName(),
-			events,
-			in,
-			out)
+		p.registerEventListener(p.config.GetEventListenerName(), events, in, out)
 	}
 }
 
@@ -792,11 +785,7 @@ func (p *Process) registerEventListener(eventListenerName string,
 	_events []string,
 	stdin io.Reader,
 	stdout io.Writer) {
-	eventListener := events.NewEventListener(eventListenerName,
-		p.supervisorID,
-		stdin,
-		stdout,
-		p.config.GetInt("buffer_size", 100))
+	eventListener := events.NewEventListener(eventListenerName, p.supervisorID, stdin, stdout, p.config.GetInt("buffer_size", 100))
 	events.RegisterEventListener(eventListenerName, _events, eventListener)
 }
 

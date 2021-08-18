@@ -51,7 +51,6 @@ func ToSignal(signalName string) (os.Signal, error) {
 		return sig, nil
 	}
 	return syscall.SIGTERM, nil
-
 }
 
 // Kill send signal to the process
